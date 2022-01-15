@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
 import { AUTHORIZE } from "../graphql/mutations";
-
+import { setAccessToken } from "../utils/authStorage";
 
 const useSignIn = () => {
   const [mutate, result] = useMutation(AUTHORIZE);
 
   const signIn = async ({ username, password }) => {
     try {
-      const { data } = await mutate({
+      const { data: mutationData } = await mutate({
         variables: {
           credentials: {
             username,
@@ -15,7 +15,11 @@ const useSignIn = () => {
           }
         }
       });
-      return { data: data.authorize };
+      const { authorize: data } = mutationData;
+
+      await setAccessToken(data.accessToken);
+
+      return { data };
     } catch (e) {
       console.log(e);
       return undefined;
