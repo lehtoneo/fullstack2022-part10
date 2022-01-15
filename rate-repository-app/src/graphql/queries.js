@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { RepositoryFragments, PageInfoFragments } from './fragments';
+import { RepositoryFragments, PageInfoFragments, UserFragments } from './fragments';
 
 
 
@@ -38,4 +38,13 @@ query repositories(
 
   ${RepositoryFragments.allRepositoryData}
   ${PageInfoFragments.allPageInfoData}
+`;
+
+export const GET_AUTHORIZER_USER = gql`
+  query {
+    authorizedUser {
+      ...allUserData
+    }
+  }
+  ${UserFragments.allUserData}
 `;

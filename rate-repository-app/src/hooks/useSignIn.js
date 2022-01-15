@@ -25,13 +25,24 @@ const useSignIn = () => {
       await apolloClient.resetStore();
       return { data, success: true };
     } catch (e) {
-      console.log(e);
+      return { success: false };
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await authStorage.removeAccessToken();
+      await apolloClient.resetStore();
+      return { success: true };
+    } catch (e) {
+      
       return { success: false };
     }
   };
 
   return {
     signIn,
+    signOut,
     result
   };
 };
