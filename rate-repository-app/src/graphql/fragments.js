@@ -1,5 +1,19 @@
 import { gql } from '@apollo/client';
 
+export const UserFragments = {
+  allUserData: gql`
+    fragment allUserData on User {
+      id
+      username
+      createdAt
+      reviews {
+        totalCount
+      }
+      reviewCount
+    }
+  `
+};
+
 export const PageInfoFragments = {
   allPageInfoData: gql`
     fragment allPageInfoData on PageInfo {
