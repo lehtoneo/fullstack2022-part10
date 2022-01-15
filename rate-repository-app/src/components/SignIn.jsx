@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Pressable } from "react-native";
+
+import { useHistory } from "react-router-native";
+
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -48,7 +51,7 @@ const SignInForm = ({ onSubmit }) => {
     <View style={{ flex: 1 }}>
       <View style={styles.formContainer}>
         <FormikTextInput placeholder="Username" name="username" style={{ ...styles.input }}/>
-        <FormikTextInput placeholder="Password" name="password" style={{ ...styles.input, marginTop: 10 }}/>
+        <FormikTextInput placeholder="Password" name="password" style={{ ...styles.input, marginTop: 10 }} secureTextEntry={true}/>
         <SignInButton onSubmit={onSubmit}/>
       </View>
     </View>
@@ -67,12 +70,16 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const { signIn } = useSignIn();
+  const history = useHistory();
   const onSubmit = async (values) => {
     const { username, password } = values;
 
     try {
-      const { data } = await signIn({ username, password });
+      const { data, success } = await signIn({ username, password });
       console.log(data);
+      if (success) {
+       history.push('/');
+      }
     } catch (e) {
       console.log(e);
     }
