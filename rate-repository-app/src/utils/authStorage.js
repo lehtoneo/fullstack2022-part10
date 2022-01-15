@@ -28,14 +28,6 @@ class AuthStorage {
   }
 }
 
-export const setAccessToken = async (accessToken) => {
-  const storage = new AuthStorage();
-  await storage.setAccessToken(accessToken);
-  console.log("access token set");
-  return accessToken;
-};
 
-export const getAccessToken = async () => {
-  const storage = new AuthStorage();
-  return await storage.getAccessToken();
-};
+
+export default new AuthStorage();
