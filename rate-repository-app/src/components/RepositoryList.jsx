@@ -32,7 +32,7 @@ const getRoundedCount = (count) => {
 
 const StatsItem = ({ count, text }) => {
   return (
-    <View style={styles.statsItemContainer}>
+    <View style={styles.statsItemContainer} testID='statsItem'>
       <Text fontWeight="bold">{getRoundedCount(count)}</Text>
       <Text color="textSecondary">{text}</Text>
     </View>
@@ -41,7 +41,10 @@ const StatsItem = ({ count, text }) => {
 
 const renderRepository = ({ item: repository }) => {
   return (
-    <View style={{ flex: 1, paddingLeft: SPACING, paddingTop: SPACING, paddingBottom: SPACING,  backgroundColor: "white" }}>
+    <View 
+      style={{ flex: 1, paddingLeft: SPACING, paddingTop: SPACING, paddingBottom: SPACING,  backgroundColor: "white" }}
+      testID="repositoryItem"
+      >
       <View style={{ flex: 1, flexDirection: "row" }}>
         <Image 
           source={{ url: repository.ownerAvatarUrl }} 
@@ -56,7 +59,7 @@ const renderRepository = ({ item: repository }) => {
         </View>
       </View>
       <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: SPACING }}>
-          <StatsItem text="Starts" count={repository.stargazersCount}/>
+          <StatsItem text="Stars" count={repository.stargazersCount}/>
           <StatsItem text="Forks" count={repository.forksCount}/>
           <StatsItem text="Reviews" count={repository.reviewCount}/>
           <StatsItem text="Rating" count={repository.ratingAverage}/>
@@ -67,13 +70,10 @@ const renderRepository = ({ item: repository }) => {
   );
 };
 
-const RepositoryList = () => {
-  const { repositories } = useRepositories();
-
+export const RepositoryListContainer = ( { repositories }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : [];
-
   return (
     <FlatList
       data={repositoryNodes}
@@ -81,6 +81,14 @@ const RepositoryList = () => {
       renderItem={renderRepository}
       // other props
     />
+  );
+};
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+
+  return (
+    <RepositoryListContainer repositories={repositories}/>
   );
 };
 
