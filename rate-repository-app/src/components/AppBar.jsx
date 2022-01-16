@@ -48,6 +48,9 @@ const AppBar = () => {
         <Link to="/">
           <Text fontSize="subheading" fontWeight="bold" style={styles.headerText}>Repositories</Text>
         </Link>
+        <Link to="/create-review">
+          <Text fontSize="subheading" fontWeight="bold" style={{...styles.headerText, marginLeft: 10 }}>Create a review</Text>
+        </Link>
         <View style={ { marginLeft: SPACING }}>
           { user !== null 
             ? <SignOutButton onPress={handleSignOutPress}/>

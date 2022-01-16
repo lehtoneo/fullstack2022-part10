@@ -49,6 +49,7 @@ const RenderReview = ( { review }) => {
 const RepositoryPage = () => {
   const { id } = useParams();
   const { repository } = useRepository(id);
+
   const [ reviewList, setReviewList ] = useState([]);
   useEffect(() => {
     if (repository) {
@@ -65,13 +66,14 @@ const RepositoryPage = () => {
   }
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <FlatList
       data={reviewList}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RenderReview review={item} />}
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryItem repository={repository} onOpenInGithubPress={handleOpenInGithubPress}/>}
+      ListFooterComponent={ItemSeparator}
     />
     </View>
   );
