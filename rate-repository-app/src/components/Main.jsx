@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, LogBox } from 'react-native';
 import { Route, Switch, Redirect } from 'react-router-native';
 
 import RepositoryList from './RepositoryList';
@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
   return (
     <View style={styles.container}>
       <AppBar/>
