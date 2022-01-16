@@ -35,6 +35,18 @@ export const RepositoryFragments = {
       fullName
       reviews {
         totalCount
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
       }
       ratingAverage
       reviewCount
