@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 
 import useRepository from '../hooks/useRepository';
 
+import { ItemSeparator } from './RepositoryList';
 import Text from './Text';
 import RepositoryItem from './RepositoryItem';
 import theme from '../theme';
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
 const RenderReview = ( { review }) => {
   const createAtDate = new Date (review.createdAt);
   return (
-    <View style={{ padding: 10 }}>
+    <View style={{ padding: 10, backgroundColor: "white" }}>
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.rating}>
           <Text style={styles.ratingText}>{review.rating}</Text>
@@ -67,6 +68,7 @@ const RepositoryPage = () => {
     <View>
       <FlatList
       data={reviewList}
+      ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RenderReview review={item} />}
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryItem repository={repository} onOpenInGithubPress={handleOpenInGithubPress}/>}
