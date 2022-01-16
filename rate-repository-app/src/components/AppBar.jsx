@@ -55,6 +55,12 @@ const AppBar = () => {
             <Text fontSize="subheading" fontWeight="bold" style={{...styles.headerText  }}>Create a review</Text>
           </Link>
         }
+
+        { user !== null &&
+          <Link to="/user-reviews">
+            <Text fontSize="subheading" fontWeight="bold" style={{...styles.headerText  }}>My reviews</Text>
+          </Link>
+        }
         
 
         { user !== null &&

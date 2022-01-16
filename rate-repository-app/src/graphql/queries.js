@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { RepositoryFragments, PageInfoFragments, UserFragments } from './fragments';
+import { RepositoryFragments, PageInfoFragments } from './fragments';
 
 
 
@@ -52,10 +52,26 @@ query repository( $id: ID! )
 `;
 
 export const GET_AUTHORIZER_USER = gql`
-  query {
-    authorizedUser {
-      ...allUserData
+query authorizedUser($includeReviews: Boolean = false) {
+  authorizedUser {
+    id
+    username
+    createdAt
+    reviews @include(if: $includeReviews) {
+      totalCount
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          user {
+            id
+            username
+          }
+        }
+      }
     }
   }
-  ${UserFragments.allUserData}
+}
 `;

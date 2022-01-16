@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const RenderReview = ( { review }) => {
+export const RenderReview = ( { review }) => {
   const createAtDate = new Date (review.createdAt);
   return (
     <View style={{ padding: 10, backgroundColor: "white" }}>
