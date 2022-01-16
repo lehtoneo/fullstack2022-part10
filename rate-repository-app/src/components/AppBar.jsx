@@ -14,13 +14,14 @@ const styles = StyleSheet.create({
     // ...
   },
   headerContainer: {
-    marginLeft: SPACING,
+    marginLeft: 0,
     marginBottom: SPACING,
     marginRight: SPACING,
     flexDirection: "row"
   },
   headerText: {
     color: "white",
+    marginLeft: SPACING 
   }
   // ...
 });
@@ -48,17 +49,29 @@ const AppBar = () => {
         <Link to="/">
           <Text fontSize="subheading" fontWeight="bold" style={styles.headerText}>Repositories</Text>
         </Link>
-        <Link to="/create-review">
-          <Text fontSize="subheading" fontWeight="bold" style={{...styles.headerText, marginLeft: 10 }}>Create a review</Text>
-        </Link>
-        <View style={ { marginLeft: SPACING }}>
-          { user !== null 
-            ? <SignOutButton onPress={handleSignOutPress}/>
-            : <Link to="/sign-in">
-                <Text fontSize="subheading" fontWeight="bold" style={styles.headerText}>Sign in</Text>
-              </Link>
-          }
-        </View>
+        {
+          user !== null && 
+          <Link to="/create-review">
+            <Text fontSize="subheading" fontWeight="bold" style={{...styles.headerText  }}>Create a review</Text>
+          </Link>
+        }
+        
+
+        { user !== null &&
+          <SignOutButton onPress={handleSignOutPress}/>
+        }
+
+        { user === null && 
+          <Link to="/sign-in">
+            <Text fontSize="subheading" fontWeight="bold" style={styles.headerText}>Sign in</Text>
+          </Link>
+        }
+
+        { user === null && 
+          <Link to="/sign-up">
+            <Text fontSize="subheading" fontWeight="bold" style={styles.headerText}>Sign up</Text>
+          </Link>
+        }
         
       </View>
     </ScrollView>
