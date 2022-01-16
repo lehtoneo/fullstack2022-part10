@@ -9,7 +9,6 @@ import * as yup from 'yup';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
 
-import useSignIn from '../hooks/useSignIn';
 import Button from './Button';
 import useCreateUser from '../hooks/useCreateUser';
 

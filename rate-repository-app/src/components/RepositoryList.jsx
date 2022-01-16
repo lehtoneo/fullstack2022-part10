@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
+
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import { useHistory } from 'react-router-native';
 import useRepositories from '../hooks/useRepositories';
@@ -43,13 +45,50 @@ export const RepositoryListContainer = ( { repositories, onRepositoryPress }) =>
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const [ sortString, setSortString ] = useState("latest");
+  const [ sort, setSort ] = useState({
+    orderBy: "CREATED_AT",
+    orderDirection: "ASC"
+  });
+  useEffect(() => {
+    if (sortString === "latest") {
+      setSort({
+        orderBy: "CREATED_AT",
+        orderDirection: "DESC"
+      });
+    }
+    if (sortString === "highestRating") {
+      setSort({
+        orderBy: "RATING_AVERAGE",
+        orderDirection: "DESC"
+      });
+    }
+    if (sortString === "lowestRating") {
+      setSort({
+        orderBy: "RATING_AVERAGE",
+        orderDirection: "ASC"
+      });
+    }
+  },[sortString]);
+  const { repositories } = useRepositories(sort);
   const history = useHistory();
   const handleRepositoryPress = (id) => {
     history.push(`/repository/${id}`);
   };
   return (
-    <RepositoryListContainer repositories={repositories} onRepositoryPress={handleRepositoryPress}/>
+    <View style={{ flex: 1}}>
+      <Picker
+        selectedValue={sortString}
+        onValueChange={(itemValue) =>
+          setSortString(itemValue)
+        }>
+        <Picker.Item label="Latest repositories" value="latest"
+        />
+        <Picker.Item label="Highest rated repositories" value="highestRating" />
+        <Picker.Item label="Lowest rated repositories" value="lowestRating" />
+      </Picker>
+      <RepositoryListContainer repositories={repositories} onRepositoryPress={handleRepositoryPress}/>
+    </View>
   );
 };
 
