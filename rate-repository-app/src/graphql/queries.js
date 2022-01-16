@@ -40,6 +40,17 @@ query repositories(
   ${PageInfoFragments.allPageInfoData}
 `;
 
+export const GET_REPOSITORY = gql`
+query repository( $id: ID! ) 
+{ repository( id: $id )   
+  {
+    ...allRepositoryData
+  }
+}
+
+  ${RepositoryFragments.allRepositoryData}
+`;
+
 export const GET_AUTHORIZER_USER = gql`
   query {
     authorizedUser {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { FlatList, View, StyleSheet, Image } from 'react-native';
+import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { useHistory } from 'react-router-native';
 import useRepositories from '../hooks/useRepositories';
-import theme from '../theme';
-import Text from './Text';
+import RepositoryItem from './RepositoryItem';
 const styles = StyleSheet.create({
   separator: {
     height: 10,
@@ -17,60 +17,18 @@ const styles = StyleSheet.create({
   
 });
 
-const SPACING = 10;
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const getRoundedCount = (count) => {
-  if (count > 1000) {
-    const thousands = count / 1000;
-    const rounded = Math.round(thousands * 10) / 10;
-    return `${rounded}k`;
-  }
-
-  return `${count}`;
-};
-
-const StatsItem = ({ count, text }) => {
+const RenderRepository = ({ item: repository, onPress }) => {
+  
   return (
-    <View style={styles.statsItemContainer} testID='statsItem'>
-      <Text fontWeight="bold">{getRoundedCount(count)}</Text>
-      <Text color="textSecondary">{text}</Text>
-    </View>
+    <Pressable onPress={onPress ? () => onPress(repository.id) : undefined}>
+      <RepositoryItem repository={repository}/>
+    </Pressable>
   );
 };
 
-const renderRepository = ({ item: repository }) => {
-  return (
-    <View 
-      style={{ flex: 1, paddingLeft: SPACING, paddingTop: SPACING, paddingBottom: SPACING,  backgroundColor: "white" }}
-      testID="repositoryItem"
-      >
-      <View style={{ flex: 1, flexDirection: "row" }}>
-        <Image 
-          source={{ url: repository.ownerAvatarUrl }} 
-          style={{ height: 50, width: 50, borderRadius: 10 }}
-        />
-        <View style={{ paddingLeft: SPACING*1.5, flex: 1 }}>
-          <Text color="textPrimary" fontWeight="bold" style={{ marginTop: SPACING/2 }}>{repository.fullName}</Text>
-          <Text color="textSecondary" style={{ marginTop: SPACING }}>{repository.description}</Text>
-          <View style={{ backgroundColor: theme.colors.primary, borderRadius: 3, alignSelf: "flex-start", padding: 3, marginTop: SPACING }}>
-             <Text style={{ color: "white"}}>{repository.language}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: SPACING }}>
-          <StatsItem text="Stars" count={repository.stargazersCount}/>
-          <StatsItem text="Forks" count={repository.forksCount}/>
-          <StatsItem text="Reviews" count={repository.reviewCount}/>
-          <StatsItem text="Rating" count={repository.ratingAverage}/>
-
-      </View>
-      
-    </View>
-  );
-};
-
-export const RepositoryListContainer = ( { repositories }) => {
+export const RepositoryListContainer = ( { repositories, onRepositoryPress }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : [];
@@ -78,7 +36,7 @@ export const RepositoryListContainer = ( { repositories }) => {
     <FlatList
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={renderRepository}
+      renderItem={({ item }) => <RenderRepository item={item} onPress={onRepositoryPress}/>}
       // other props
     />
   );
@@ -86,9 +44,12 @@ export const RepositoryListContainer = ( { repositories }) => {
 
 const RepositoryList = () => {
   const { repositories } = useRepositories();
-
+  const history = useHistory();
+  const handleRepositoryPress = (id) => {
+    history.push(`/repository/${id}`);
+  };
   return (
-    <RepositoryListContainer repositories={repositories}/>
+    <RepositoryListContainer repositories={repositories} onRepositoryPress={handleRepositoryPress}/>
   );
 };
 

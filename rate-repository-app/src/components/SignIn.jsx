@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { useHistory } from "react-router-native";
 
@@ -8,8 +8,9 @@ import * as yup from 'yup';
 
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
-import Text from './Text';
+
 import useSignIn from '../hooks/useSignIn';
+import Button from './Button';
 
 const styles = StyleSheet.create({
   formContainer: {
@@ -23,28 +24,9 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.textSecondary,
     padding: 10,
   },
-  signInButtonContainer: {
-    marginTop: 20,
-    borderRadius: 3,
-    backgroundColor: theme.colors.primary,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  signInText: {
-    padding: 10,
-    color: "white"
-  }
 });
 
-const SignInButton = ({ onSubmit }) => {
-  return (
-    <Pressable onPress={onSubmit}>
-      <View style={styles.signInButtonContainer}>
-        <Text style={styles.signInText} fontWeight="bold">Sign in</Text>
-      </View>
-    </Pressable>
-  );
-};
+
 
 const SignInForm = ({ onSubmit }) => {
   return (
@@ -52,7 +34,7 @@ const SignInForm = ({ onSubmit }) => {
       <View style={styles.formContainer}>
         <FormikTextInput placeholder="Username" name="username" style={{ ...styles.input }}/>
         <FormikTextInput placeholder="Password" name="password" style={{ ...styles.input, marginTop: 10 }} secureTextEntry={true}/>
-        <SignInButton onSubmit={onSubmit}/>
+        <Button onPress={onSubmit} title="Sign in"/>
       </View>
     </View>
   );
